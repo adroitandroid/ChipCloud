@@ -17,6 +17,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
     private int selectedFontColor = -1;
     private int unselectedColor = -1;
     private int unselectedFontColor = -1;
+    private int backgroundDrawable = -1;
     private int selectTransitionMS = 750;
     private int deselectTransitionMS = 500;
     private Mode mode = Mode.SINGLE;
@@ -48,6 +49,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
             unselectedFontColor = a.getColor(R.styleable.ChipCloud_deselectedFontColor, -1);
             selectTransitionMS = a.getInt(R.styleable.ChipCloud_selectTransitionMS, 750);
             deselectTransitionMS = a.getInt(R.styleable.ChipCloud_deselectTransitionMS, 500);
+            backgroundDrawable = a.getResourceId(R.styleable.ChipCloud_backgroundDrawable, -1);
             String typefaceString = a.getString(R.styleable.ChipCloud_typeface);
             if (typefaceString != null) {
                 typeface = Typeface.createFromAsset(getContext().getAssets(), typefaceString);
@@ -202,6 +204,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
                 .allCaps(allCaps)
                 .selectedColor(selectedColor)
                 .selectedFontColor(selectedFontColor)
+                .backgroundDrawable(backgroundDrawable)
                 .unselectedColor(unselectedColor)
                 .unselectedFontColor(unselectedFontColor)
                 .selectTransitionMS(selectTransitionMS)
@@ -273,6 +276,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
     public static class Configure {
         private ChipCloud chipCloud;
         private int selectedColor = -1;
+        private int backgroundDrawable = -1;
         private int selectedFontColor = -1;
         private int deselectedColor = -1;
         private int deselectedFontColor = -1;
@@ -386,6 +390,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
             if (deselectTransitionMS != -1) chipCloud.setDeselectTransitionMS(deselectTransitionMS);
             if (minHorizontalSpacing != -1) chipCloud.setMinimumHorizontalSpacing(minHorizontalSpacing);
             if (verticalSpacing != -1) chipCloud.setVerticalSpacing(verticalSpacing);
+            if (backgroundDrawable != -1) chipCloud.setBackgroundDrawable(backgroundDrawable);
             chipCloud.setChipListener(chipListener);
             chipCloud.addChips(labels);
         }
@@ -400,5 +405,9 @@ public class ChipCloud extends FlowLayout implements ChipListener {
             chipCloud.invalidate();
             chipCloud.requestLayout();
         }
+    }
+
+    private void setBackgroundDrawable(int backgroundDrawable) {
+        this.backgroundDrawable=backgroundDrawable;
     }
 }

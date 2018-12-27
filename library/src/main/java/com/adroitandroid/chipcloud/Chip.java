@@ -18,6 +18,7 @@ public class Chip extends android.support.v7.widget.AppCompatTextView implements
     private boolean selected = false;
     private ChipListener listener = null;
     private int selectedFontColor = -1;
+    private int backgroundDrawable = -1;
     private int unselectedFontColor = -1;
     private TransitionDrawable crossfader;
     private int selectTransitionMS = 750;
@@ -46,12 +47,13 @@ public class Chip extends android.support.v7.widget.AppCompatTextView implements
 
     public void initChip(Context context, int index, String label, Typeface typeface, int textSizePx,
                          boolean allCaps, int selectedColor, int selectedFontColor, int unselectedColor,
-                         int unselectedFontColor, ChipCloud.Mode mode) {
+                         int unselectedFontColor, ChipCloud.Mode mode,int backgroundDrawable) {
 
         this.index = index;
         this.selectedFontColor = selectedFontColor;
         this.unselectedFontColor = unselectedFontColor;
         this.mode = mode;
+        this.backgroundDrawable=backgroundDrawable;
 
         Drawable selectedDrawable = ContextCompat.getDrawable(context, R.drawable.chip_selected);
 
@@ -168,6 +170,8 @@ public class Chip extends android.support.v7.widget.AppCompatTextView implements
         } else {
             setBackground(background);
         }
+        if (backgroundDrawable != -1)
+            setBackgroundResource(backgroundDrawable);
     }
 
     public void deselect() {
@@ -191,6 +195,7 @@ public class Chip extends android.support.v7.widget.AppCompatTextView implements
 
         private ChipListener chipListener;
         private ChipCloud.Mode mode;
+        private int backgroundDrawable;
 
         public ChipBuilder index(int index) {
             this.index = index;
@@ -265,12 +270,18 @@ public class Chip extends android.support.v7.widget.AppCompatTextView implements
         public Chip build(Context context) {
             Chip chip = (Chip) LayoutInflater.from(context).inflate(R.layout.chip, null);
             chip.initChip(context, index, label, typeface, textSizePx, allCaps, selectedColor,
-                    selectedFontColor, unselectedColor, unselectedFontColor, mode);
+                    selectedFontColor, unselectedColor, unselectedFontColor, mode,backgroundDrawable);
             chip.setSelectTransitionMS(selectTransitionMS);
             chip.setDeselectTransitionMS(deselectTransitionMS);
             chip.setChipListener(chipListener);
             chip.setHeight(chipHeight);
             return chip;
+        }
+
+        public ChipBuilder backgroundDrawable(int backgroundDrawable) {
+            this.backgroundDrawable = backgroundDrawable;
+            return this;
+
         }
     }
 }
